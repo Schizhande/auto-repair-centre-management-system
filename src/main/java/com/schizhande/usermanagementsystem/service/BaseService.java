@@ -17,6 +17,4 @@ public interface BaseService<T, C, U>  {
     T update(U updateDto);
 
     Collection<T> findAll();
-
-    void pseudoDelete(Long id);
 }

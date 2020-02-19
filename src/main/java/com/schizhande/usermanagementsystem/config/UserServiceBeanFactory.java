@@ -33,30 +33,32 @@ public class UserServiceBeanFactory {
     }
 
     @Bean
-    public UserService userService(RoleRepository roleRepository){
-        return new UserServiceImpl(userRepository,passwordEncoder, roleRepository, tokenRepository, applicationEventPublisher);
+    public UserService userService(RoleRepository roleRepository) {
+        return new UserServiceImpl(userRepository, passwordEncoder, roleRepository, tokenRepository, applicationEventPublisher);
     }
 
     @Bean
-    public RoleService roleService(RoleRepository roleRepository){
+    public RoleService roleService(RoleRepository roleRepository) {
         return new RoleServiceImpl(roleRepository);
     }
 
-	@Bean
-    public ApplicationListener createUserListener(EmailService emailService){
+    @Bean
+    public ApplicationListener createUserListener(EmailService emailService) {
         return new CreateUserListener(emailService, tokenRepository);
     }
 
     @Bean
-    public UserInformationService userInformationService(UserInformationRepository userInformationRepository){
+    public UserInformationService userInformationService(UserInformationRepository userInformationRepository) {
         return new UserInformationServiceImpl(userRepository, userInformationRepository);
     }
+
     @Bean
-    public UserPasswordService userPasswordService(){
-        return new UserPasswordServiceImpl(tokenRepository,userRepository,passwordEncoder,applicationEventPublisher);
+    public UserPasswordService userPasswordService() {
+        return new UserPasswordServiceImpl(tokenRepository, userRepository, passwordEncoder, applicationEventPublisher);
     }
+
     @Bean
-    public UserPermissionService userPermissionService(UserPermissionRepository userPermissionRepository){
+    public UserPermissionService userPermissionService(UserPermissionRepository userPermissionRepository) {
         return new UserPermissionServiceImpl(userPermissionRepository);
     }
 

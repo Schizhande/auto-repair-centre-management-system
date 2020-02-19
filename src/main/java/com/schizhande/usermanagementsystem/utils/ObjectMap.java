@@ -1,4 +1,4 @@
-package com.schizhande.usermanagementsystem;
+package com.schizhande.usermanagementsystem.utils;
 
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;

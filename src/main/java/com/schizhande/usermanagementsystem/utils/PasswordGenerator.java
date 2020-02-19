@@ -1,4 +1,4 @@
-package com.schizhande.usermanagementsystem;
+package com.schizhande.usermanagementsystem.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

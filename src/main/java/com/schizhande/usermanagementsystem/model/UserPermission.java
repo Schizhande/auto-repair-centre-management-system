@@ -26,4 +26,12 @@ public class UserPermission extends BaseEntity {
 
     @Column
     private String description;
+
+    public static UserPermission create(String permission){
+        return UserPermission
+                .builder()
+                .authority(permission)
+                .description(permission.replace("_", " ").toLowerCase())
+                .build();
+    }
 }

@@ -54,7 +54,7 @@ public class UserRestController {
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(@PathVariable Long userId,NewUserRequest request){
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody NewUserRequest request){
         User user = userService.update(userId, request);
         if (user == null) {
             ErrorBody response = ErrorBody.builder().message("Failed to update user.").build();
