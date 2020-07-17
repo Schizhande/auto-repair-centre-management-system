@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class CustomSpecificationTemplateImplBuilder<T> {
     private static final Logger log = LoggerFactory.getLogger(CustomSpecificationTemplateImplBuilder.class);
-    private final List<SearchCriteria> searchCriterias = new ArrayList();
+    private final List<SearchCriteria> searchCriterias = new ArrayList<>();
 
     public CustomSpecificationTemplateImplBuilder() {
     }
@@ -25,23 +25,23 @@ public class CustomSpecificationTemplateImplBuilder<T> {
         if (this.searchCriterias.isEmpty()) {
             return null;
         } else {
-            List<Specification<T>> specifications = new ArrayList();
+            List<Specification<T>> specifications = new ArrayList<>();
             this.searchCriterias.forEach((searchCriteria) -> {
-                specifications.add(new CustomSpecificationTemplateImpl(searchCriteria));
+                specifications.add(new CustomSpecificationTemplateImpl<T>(searchCriteria));
             });
-            Specification<T> result = (Specification)specifications.get(0);
+            Specification<T> result = specifications.get(0);
 
             for(int i = 1; i < specifications.size(); ++i) {
-                result = Specifications.where((Specification)result).and((Specification)specifications.get(i));
+                result = Specification.where(result).and(specifications.get(i));
             }
 
-            return (Specification)result;
+            return result;
         }
     }
 
     public Specification<T> buildSpecification(String searchQuery) {
         log.trace("------> Search query : {}", searchQuery);
-        CustomSpecificationTemplateImplBuilder<T> builder = new CustomSpecificationTemplateImplBuilder();
+        CustomSpecificationTemplateImplBuilder<T> builder = new CustomSpecificationTemplateImplBuilder<>();
         Pattern pattern = Pattern.compile("(\\w.+?)([:<>])((\\w+[\\s\\w]*)+?)");
         Matcher matcher = pattern.matcher(searchQuery + ",");
 
