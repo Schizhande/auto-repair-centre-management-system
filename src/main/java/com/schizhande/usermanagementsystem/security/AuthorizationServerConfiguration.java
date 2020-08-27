@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
@@ -33,8 +34,8 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private  ClientDetailsService clientDetailsService;
+    //@Autowired
+    //private  ClientDetailsService clientDetailsService;
 
     @Bean
     TokenStore jdbcTokenStore() {
@@ -43,9 +44,10 @@ public class AuthorizationServerConfiguration implements AuthorizationServerConf
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.checkTokenAccess("isAuthenticated()").tokenKeyAccess("permitAll()");
+        security.checkTokenAccess("permitAll()").tokenKeyAccess("permitAll()").passwordEncoder(passwordEncoder);
     }
 
+    @Transactional
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource).passwordEncoder(passwordEncoder);

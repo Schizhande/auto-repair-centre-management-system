@@ -26,6 +26,8 @@ public class UpdateUserInformationRequest {
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
+    private String email;
+
     @Valid
     private Address address;
 

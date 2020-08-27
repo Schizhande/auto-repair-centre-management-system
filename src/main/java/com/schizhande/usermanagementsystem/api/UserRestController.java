@@ -2,7 +2,6 @@ package com.schizhande.usermanagementsystem.api;
 
 
 import com.schizhande.usermanagementsystem.exceptions.ErrorBody;
-import com.schizhande.usermanagementsystem.exceptions.Success;
 import com.schizhande.usermanagementsystem.model.User;
 import com.schizhande.usermanagementsystem.service.UserService;
 import com.schizhande.usermanagementsystem.service.request.NewUserRequest;
@@ -70,8 +69,7 @@ public class UserRestController {
             ErrorBody response = ErrorBody.builder().message("Failed to delete user.").build();
             return new ResponseEntity<>(response, HttpStatus.NOT_MODIFIED);
         }
-        Success response = Success.builder().Id(user.getId()).message("User deletion was successful.").build();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping(value = "/role/{roleId}", params = {"page", "size"})
@@ -86,8 +84,7 @@ public class UserRestController {
             ErrorBody response = ErrorBody.builder().message("Failed to enable or disable user.").build();
             return new ResponseEntity<>(response, HttpStatus.NOT_MODIFIED);
         }
-        Success response = Success.builder().Id(user.getId()).message("User enable or disable was successful.").build();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/verify")
@@ -97,8 +94,7 @@ public class UserRestController {
             ErrorBody response = ErrorBody.builder().message("Failed to Verify user.").build();
             return new ResponseEntity<>(response, HttpStatus.NOT_MODIFIED);
         }
-        Success response = Success.builder().Id(user.getId()).message("User verification was successful.").build();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(user);
     }
 
 

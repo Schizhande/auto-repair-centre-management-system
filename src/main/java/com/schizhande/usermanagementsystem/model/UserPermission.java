@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 
 @Data
@@ -13,7 +14,6 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 public class UserPermission extends BaseEntity {
 	
 	@Id
@@ -24,6 +24,7 @@ public class UserPermission extends BaseEntity {
     @Column(nullable = false)
     private String authority;
 
+    @Lob
     @Column
     private String description;
 
@@ -33,5 +34,19 @@ public class UserPermission extends BaseEntity {
                 .authority(permission)
                 .description(permission.replace("_", " ").toLowerCase())
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        UserPermission that = (UserPermission) o;
+        return authority.equals(that.authority);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), authority);
     }
 }

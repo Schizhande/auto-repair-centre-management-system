@@ -1,9 +1,9 @@
 package com.schizhande.usermanagementsystem.config;
 
 
+import com.schizhande.usermanagementsystem.dao.*;
 import com.schizhande.usermanagementsystem.events.CreateUserListener;
 import com.schizhande.usermanagementsystem.notifications.service.EmailService;
-import com.schizhande.usermanagementsystem.dao.*;
 import com.schizhande.usermanagementsystem.service.*;
 import com.schizhande.usermanagementsystem.service.impl.*;
 import org.springframework.context.ApplicationEventPublisher;
@@ -38,8 +38,9 @@ public class UserServiceBeanFactory {
     }
 
     @Bean
-    public RoleService roleService(RoleRepository roleRepository) {
-        return new RoleServiceImpl(roleRepository);
+    public RoleService roleService(RoleRepository roleRepository,
+                                   UserPermissionRepository userPermissionRepository) {
+        return new RoleServiceImpl(roleRepository, userPermissionRepository);
     }
 
     @Bean
@@ -58,8 +59,9 @@ public class UserServiceBeanFactory {
     }
 
     @Bean
-    public UserPermissionService userPermissionService(UserPermissionRepository userPermissionRepository) {
-        return new UserPermissionServiceImpl(userPermissionRepository);
+    public UserPermissionService userPermissionService(UserPermissionRepository userPermissionRepository,
+                                                       RoleService roleService) {
+        return new UserPermissionServiceImpl(userPermissionRepository, roleService);
     }
 
 

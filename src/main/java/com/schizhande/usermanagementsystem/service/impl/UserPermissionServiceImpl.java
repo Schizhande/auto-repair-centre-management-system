@@ -4,6 +4,7 @@ import com.schizhande.usermanagementsystem.dao.UserPermissionRepository;
 import com.schizhande.usermanagementsystem.dao.jpa.CustomSpecificationTemplateImplBuilder;
 import com.schizhande.usermanagementsystem.exceptions.RecordNotFoundException;
 import com.schizhande.usermanagementsystem.model.UserPermission;
+import com.schizhande.usermanagementsystem.service.RoleService;
 import com.schizhande.usermanagementsystem.service.UserPermissionService;
 import com.schizhande.usermanagementsystem.service.request.UpdateUserPermissionRequest;
 import lombok.val;
@@ -23,9 +24,12 @@ public class UserPermissionServiceImpl implements UserPermissionService {
 
     private final UserPermissionRepository userPermissionRepository;
 
+    private final RoleService roleService;
+
     public UserPermissionServiceImpl(
-            UserPermissionRepository userPermissionRepository) {
+            UserPermissionRepository userPermissionRepository, RoleService roleService) {
         this.userPermissionRepository = userPermissionRepository;
+        this.roleService = roleService;
     }
 
     @Override
@@ -74,6 +78,23 @@ public class UserPermissionServiceImpl implements UserPermissionService {
         val userPermission = findById(updateDto.getId());
         userPermission.setDescription(updateDto.getPermissionDescription());
         return userPermissionRepository.save(userPermission);
+    }
+
+    @Override
+    public Collection<UserPermission> findAllUnAssignedPermissions(Long id) {
+
+        val allAssignedPermissions = findAllAssignedPermissions(id);
+
+        return userPermissionRepository.findAll()
+                .parallelStream()
+                .filter(userPermission -> !allAssignedPermissions.contains(userPermission))
+                .collect(toSet());
+    }
+
+    @Override
+    public Collection<UserPermission> findAllAssignedPermissions(Long groupId) {
+        val role = roleService.findById(groupId);
+        return role.getPermissions();
     }
 
 }

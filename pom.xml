@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.schizhande</groupId>
-    <artifactId>auto-repair-centre-management-system</artifactId>
+    <artifactId>user-management-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>auto-repair-centre-management-system</name>
+    <name>user-management-system</name>
     <description>Auto repair center management system</description>
 
     <properties>

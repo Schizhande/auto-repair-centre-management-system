@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(NewUserRequest request, WebRequest webRequest) {
-
+        log.info("---> Create user with id {}", request.getRoleId());
         validate(request);
 
         val user = buildUser(request);
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(Long userId, NewUserRequest request) {
-
+        log.info("---> Update user with id {}", userId);
         validate(request);
 
         val user = findById(userId);
@@ -129,6 +129,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User deleteUser(Long userId) {
+
+        log.info("---> Delete user with id {}", userId);
 
         val user = findById(userId);
 
@@ -155,6 +157,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User enableUser(Long userId, boolean enable) {
 
+        log.info("---> Enable user with id {}", userId);
         if(isNull(userId)){
             throw new InvalidRequestException("User id is required");
         }
@@ -171,6 +174,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User verifyUser(VerifyUserRequest request) {
+        log.info("---> Enable user with token {}", request.getToken());
         validate(request);
 
         val token = request.getToken();

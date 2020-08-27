@@ -1,6 +1,8 @@
 package com.schizhande.usermanagementsystem.service;
 
 import com.schizhande.usermanagementsystem.model.Role;
+import com.schizhande.usermanagementsystem.model.UserPermission;
+import com.schizhande.usermanagementsystem.service.request.AssignUserPermissionRequest;
 import com.schizhande.usermanagementsystem.service.request.CreateRoleRequest;
 import org.springframework.data.domain.Page;
 
@@ -18,4 +20,8 @@ public interface RoleService {
     Role deleteRole(Long roleId);
 
     Collection<Role> findAll();
+
+    Collection<UserPermission> assignPermissions(AssignUserPermissionRequest request);
+
+    Collection<UserPermission> unAssignPermissions(AssignUserPermissionRequest request);
 }

@@ -21,4 +21,8 @@ public interface UserPermissionService {
     UserPermission findById(Long id);
 
     UserPermission update(UpdateUserPermissionRequest request);
+
+    Collection<UserPermission> findAllUnAssignedPermissions(Long id);
+
+    Collection<UserPermission> findAllAssignedPermissions(Long groupId);
 }

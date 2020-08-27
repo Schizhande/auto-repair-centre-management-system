@@ -6,6 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,7 +36,15 @@ public class ApiErrorHandler extends ResponseEntityExceptionHandler {
         ex.printStackTrace();
         ErrorBody errorBody =
                 ErrorBody.builder().message(ex.getMessage()).debugMessage(new InvalidRequestException(ex.getMessage()).toString()).build();
-        return new ResponseEntity(errorBody, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({InvalidTokenException.class})
+    public ResponseEntity<ErrorBody> handleInvalidToken(InvalidTokenException ex) {
+        ex.printStackTrace();
+        ErrorBody errorBody =
+                ErrorBody.builder().message(ex.getMessage()).debugMessage(new InvalidTokenException(ex.getMessage()).toString()).build();
+        return new ResponseEntity<>(errorBody, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler({RecordExistsException.class})

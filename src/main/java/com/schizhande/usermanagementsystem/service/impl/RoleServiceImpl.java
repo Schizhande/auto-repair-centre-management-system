@@ -1,9 +1,12 @@
 package com.schizhande.usermanagementsystem.service.impl;
 
+import com.schizhande.usermanagementsystem.dao.UserPermissionRepository;
 import com.schizhande.usermanagementsystem.exceptions.RecordNotFoundException;
 import com.schizhande.usermanagementsystem.dao.RoleRepository;
 import com.schizhande.usermanagementsystem.model.Role;
+import com.schizhande.usermanagementsystem.model.UserPermission;
 import com.schizhande.usermanagementsystem.service.RoleService;
+import com.schizhande.usermanagementsystem.service.request.AssignUserPermissionRequest;
 import com.schizhande.usermanagementsystem.service.request.CreateRoleRequest;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -19,8 +22,11 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
 
-    public RoleServiceImpl(RoleRepository roleRepository) {
+    private final UserPermissionRepository userPermissionRepository;
+
+    public RoleServiceImpl(RoleRepository roleRepository, UserPermissionRepository userPermissionRepository) {
         this.roleRepository = roleRepository;
+        this.userPermissionRepository = userPermissionRepository;
     }
 
 
@@ -30,7 +36,7 @@ public class RoleServiceImpl implements RoleService {
         log.info("Fetching role with id {}", roleId);
 
         return roleRepository.findById(roleId)
-                .orElseThrow(()->new RecordNotFoundException("Role with id " + roleId + " not found"));
+                .orElseThrow(() -> new RecordNotFoundException("Role with id " + roleId + " not found"));
     }
 
     @Override
@@ -42,7 +48,7 @@ public class RoleServiceImpl implements RoleService {
             throw new RecordNotFoundException("No users found.");
         }
 
-        log.info("-----> Roles "+ roles.getContent());
+        log.info("-----> Roles " + roles.getContent());
         return roles;
     }
 
@@ -84,5 +90,23 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Collection<Role> findAll() {
         return roleRepository.findAll();
+    }
+
+    @Override
+    public Collection<UserPermission> assignPermissions(AssignUserPermissionRequest request) {
+        val role = findById(request.getGroupId());
+        val userPermissions = userPermissionRepository.findAllById(request.getAuthoritiesId());
+        role.getPermissions().addAll(userPermissions);
+        roleRepository.save(role);
+        return role.getPermissions();
+    }
+
+    @Override
+    public Collection<UserPermission> unAssignPermissions(AssignUserPermissionRequest request) {
+        val role = findById(request.getGroupId());
+        val userPermissions = userPermissionRepository.findAllById(request.getAuthoritiesId());
+        role.getPermissions().removeAll(userPermissions);
+        roleRepository.save(role);
+        return role.getPermissions();
     }
 }

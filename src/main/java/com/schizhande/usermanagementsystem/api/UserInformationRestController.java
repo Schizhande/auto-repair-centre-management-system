@@ -32,9 +32,10 @@ public class UserInformationRestController {
     @PostMapping("/my-account")
     public User updateUserAccount(Principal principal,
                                   @RequestBody UpdateUserInformationRequest updateUserInformationRequest){
-
-
-        updateUserInformationRequest.setUsername("sheldon");
+        if(isNull(principal)){
+            throw  new IllegalStateException("Only logged in user can perform this operation");
+        }
+        updateUserInformationRequest.setUsername(principal.getName());
         return userInformationService.updateUserAccount(updateUserInformationRequest);
     }
 

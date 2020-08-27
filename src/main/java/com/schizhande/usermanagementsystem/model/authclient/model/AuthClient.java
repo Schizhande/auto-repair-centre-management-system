@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "oauth_client_details")
+//@Table(name = "oauth_client_details")
 @Data
 @Builder
 @AllArgsConstructor

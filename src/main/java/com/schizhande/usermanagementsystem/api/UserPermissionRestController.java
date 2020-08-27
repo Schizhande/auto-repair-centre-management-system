@@ -45,4 +45,14 @@ public class UserPermissionRestController {
         return userPermissionService.update(request);
     }
 
+    @GetMapping("/un-assigned/{groupId}")
+    public Collection<UserPermission> getAllUnAssignedPermissions(@PathVariable Long groupId){
+        return userPermissionService.findAllUnAssignedPermissions(groupId);
+    }
+
+    @GetMapping("/assigned/{groupId}")
+    public Collection<UserPermission> getAllAssignedPermissions(@PathVariable Long groupId){
+        return userPermissionService.findAllAssignedPermissions(groupId);
+    }
+
 }
